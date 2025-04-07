@@ -1,7 +1,8 @@
 $(document).ready(() => {
+ window.visitor = "JasmineHall125";
+
   // Create the centered app container
-  const $appDiv = $('<div id="app"></div>');
-  $('body').html('').append($appDiv); // Clear body and add app
+  const $appDiv = $('#app'); 
 
   // Style the body to center everything
   $('body').css({
@@ -25,7 +26,7 @@ $(document).ready(() => {
     textAlign: 'center'
   });
 
-  // Create and style a wolf image header
+  // Create and style a wolf and moon header
   const $headerWolf = $('<img>');
   $headerWolf.attr('src', 'https://nypost.com/wp-content/uploads/sites/2/2024/01/leo-wolf-moon.gif?resize=1536,1025');
   $headerWolf.attr('alt', 'Majestic wolf looking fierce');
@@ -42,8 +43,8 @@ $(document).ready(() => {
   const $tweetContainer = $('<div></div>');
   $tweetContainer.appendTo($appDiv);
 
-  // Create a textbox
-  const $textBox = $('<input type="text">');
+  // Create and style the textbox
+  const $textBox = $('<input type="text" id="tweet-box">');
   $textBox.attr('placeholder', "What's on your mind?");
   $textBox.css({
     textAlign: 'center',
@@ -54,40 +55,30 @@ $(document).ready(() => {
     width: '100%',
     marginBottom: '10px'
   });
-  $appDiv.prepend($textBox);
 
-  // Create Post button
-  const $twitterButton = $('<button></button>');
-  $twitterButton.text('Howl');
-  $textBox.before($twitterButton);
-
-  // Post button event
-  $twitterButton.on('click', () => {
-    const tweetText = $textBox.val().trim();
-
-    if (tweetText.length === 0) {
-      alert("Tweet can't be empty bestie");
-      return;
-    }
-
-    writeTweet(tweetText);
-    $textBox.val('');
-    tweetCreator();
+  // Create the button WITH an ID
+  const $howlButton = $('<button id="howl-button">Howl</button>');
+  $howlButton.css({
+    backgroundColor: '#d8b7dd',
+    color: '#fff',
+    border: 'none',
+    padding: '10px 15px',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    marginBottom: '10px'
   });
+
+  // Add the button and textbox 
+  $appDiv.prepend($textBox);
+  $appDiv.prepend($howlButton);
 
   // Show New Tweets button
   const $newButton = $('<button>Show New Tweets</button>');
   $appDiv.prepend($newButton);
-  $newButton.on('click', () => {
-    tweetCreator();
-  });
-
+  
   // Home button
   const $homeButton = $('<button>Home</button>');
   $appDiv.prepend($homeButton);
-  $homeButton.on('click', () => {
-    tweetCreator();
-  });
 
   // Tweet generator function
   function tweetCreator(username) {
@@ -122,6 +113,28 @@ $(document).ready(() => {
       $tweetContainer.prepend($tweet);
     });
   }
+
+  // Howl button click handler - SIMPLIFIED VERSION
+  $howlButton.on('click', function() {
+    const tweetText = $('#tweet-box').val().trim();
+    //tweet must have a username
+    //default username
+    //we had to set the window.visitor before calling the users on the streams.users array
+    const defaultUser = window.visitor;
+    streams.users[defaultUser] = [];
+ 
+
+    if (!tweetText) {
+      alert("You cant return an empty tweet");
+      return;
+    }
+    
+    writeTweet(tweetText);
+    $('#tweet-box').val('');
+
+    tweetCreator();
+  });
+
 
   // Initial tweet load
   tweetCreator();
