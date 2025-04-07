@@ -3,6 +3,7 @@ $(document).ready(() => {
 
   // Create the centered app container
   const $appDiv = $('#app'); 
+  $appDiv.empty();
 
   // Style the body to center everything
   $('body').css({
@@ -74,11 +75,18 @@ $(document).ready(() => {
 
   // Show New Tweets button
   const $newButton = $('<button>Show New Tweets</button>');
+  $newButton.on('click', () => {
+    tweetCreator();
+  });
+  
   $appDiv.prepend($newButton);
   
   // Home button
   const $homeButton = $('<button>Home</button>');
   $appDiv.prepend($homeButton);
+  $homeButton.on('click', () => {
+    tweetCreator(); 
+  });
 
   // Tweet generator function
   function tweetCreator(username) {
@@ -125,7 +133,7 @@ $(document).ready(() => {
  
 
     if (!tweetText) {
-      alert("Tweet Can't be Empty Bestie");
+      alert("You cant return an empty tweet bestie");
       return;
     }
     
