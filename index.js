@@ -125,7 +125,7 @@ $(document).ready(() => {
  
 
     if (!tweetText) {
-      alert("You cant return an empty tweet");
+      alert("Tweet Can't be Empty Bestie");
       return;
     }
     
